@@ -5,7 +5,7 @@
 ########################################################################
 
 
-PREFIX=app
+PREFIX=zyx
 
 # Move blacklisted files to a special folder
 move_blacklisted()
@@ -75,7 +75,7 @@ tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 ./configure --prefix="/$PREFIX" --without-python --enable-introspection=no && make -j install) || exit 1
 
 #rm -rf /sources/build/appimage
-(mkdir -p /sources/build/appimage && cd /sources/build/appimage && cmake -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=ON /sources && make -j 2 install) || exit 1
+(mkdir -p /sources/build/appimage && cd /sources/build/appimage && cmake -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
 
 #exit
 
@@ -108,94 +108,6 @@ export APPDIR=$(pwd)
 
 (mkdir -p ./usr/bin && cp -a /${PREFIX}/bin/$LOWERAPP ./usr/bin/$LOWERAPP.real) || exit 1
 
-cat > usr/bin/$LOWERAPP <<\EOF
-#! /bin/bash
-HERE="$(dirname "$(readlink -f "${0}")")"
-
-export LD_LIBRARY_PATH=$HERE/../lib:$HERE/../lib/x86_64-linux-gnu:$HERE/../../lib:$LD_LIBRARY_PATH
-#echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
-
-export PF_DATA_DIR=$HERE/../share
-#echo "PF_DATA_DIR=${PF_DATA_DIR}"
-
-export XDG_DATA_DIRS=$HERE/../share/:$HERE/../share/mime/:$XDG_DATA_DIRS
-#echo "XDG_DATA_DIRS=$XDG_DATA_DIRS"
-
-export GTK_PATH=$HERE/../lib/gtk-2.0:$GTK_PATH
-#echo "GTK_PATH=${GTK_PATH}"
-
-export PANGO_LIBDIR=$HERE/../lib
-#echo "PANGO_LIBDIR=${PANGO_LIBDIR}"
-
-export GCONV_PATH=$HERE/../lib/gconv
-#echo "GCONV_PATH=${GCONV_PATH}"
-
-export GDK_PIXBUF_MODULEDIR=$HERE/../lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
-export GDK_PIXBUF_MODULE_FILE=$HERE/../lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache
-#echo "GDK_PIXBUF_MODULEDIR: $GDK_PIXBUF_MODULEDIR"
-#echo "GDK_PIXBUF_MODULE_FILE: $GDK_PIXBUF_MODULE_FILE"
-#cat $GDK_PIXBUF_MODULE_FILE
-
-if [ -e /etc/fonts/fonts.conf ]; then
-  export FONTCONFIG_PATH=/etc/fonts
-fi
-
-export PATH=$PATH:/sbin:/usr/sbin
-
-# libstdc++ version detection
-stdcxxlib=$(ldconfig -p | grep 'libstdc++.so.6 (libc6,x86-64)'| awk 'NR==1{print $NF}')
-echo "System stdc++ library: \"$stdcxxlib\""
-stdcxxver1=$(strings "$stdcxxlib" | grep '^GLIBCXX_[0-9].[0-9]*' | cut -d"_" -f 2 | sort -V | tail -n 1)
-echo "System stdc++ library version: \"$stdcxxver1\""
-stdcxxver2=$(strings "$HERE/../optional/libstdc++/libstdc++.so.6" | grep '^GLIBCXX_[0-9].[0-9]*' | cut -d"_" -f 2 | sort -V | tail -n 1)
-echo "Bundled stdc++ library version: \"$stdcxxver2\""
-stdcxxnewest=$(echo "$stdcxxver1 $stdcxxver2" | tr " " "\n" | sort -V | tail -n 1)
-echo "Newest stdc++ library version: \"$stdcxxnewest\""
-
-if [ x"$stdcxxnewest" = x"$stdcxxver1" ]; then
-   echo "Using system stdc++ library"
-else
-   echo "Using bundled stdc++ library"
-   export LD_LIBRARY_PATH=$HERE/../optional/libstdc++:$LD_LIBRARY_PATH
-fi
-
-#ldd "$HERE/LOWERAPP.real"
-#echo -n "$HERE/LOWERAPP.real "
-#echo "$@"
-cd $HERE
-cd ..
-ldd ./bin/LOWERAPP.real
-./bin/LOWERAPP.real "$@"
-#gdb -ex "run" $HERE/LOWERAPP.real
-EOF
-
-sed -i -e "s|LOWERAPP|$LOWERAPP|g" usr/bin/$LOWERAPP
-chmod u+x usr/bin/$LOWERAPP
-
-
-# Copy deskop file and application icon
-(mkdir -p usr/share/applications/ && cp /$PREFIX/share/applications/$LOWERAPP.desktop usr/share/applications) || exit 1
-(mkdir -p usr/share/icons && cp -r /$PREFIX/share/icons/hicolor usr/share/icons) || exit 1
-
-
-########################################################################
-# Copy desktop and icon file to AppDir for AppRun to pick them up
-########################################################################
-
-#get_apprun
-cp -a /sources/appimage/AppRun .
-get_desktop
-get_icon
-
-########################################################################
-# Other application-specific finishing touches
-########################################################################
-
-cd ..
-
-generate_status
-
-cd ./$APP.AppDir/
 
 # Workaround for:
 # python2.7: symbol lookup error: /usr/lib/x86_64-linux-gnu/libgtk-3.so.0: undefined symbol: gdk__private__
@@ -300,12 +212,6 @@ fi
 fix_pango
 
 ########################################################################
-# desktopintegration asks the user on first run to install a menu item
-########################################################################
-
-get_desktopintegration $LOWERAPP
-
-########################################################################
 # Determine the version of the app; also include needed glibc version
 ########################################################################
 
@@ -323,6 +229,29 @@ strings ./usr/$LOWERAPP.real | grep INSTALL_PREFIX
 
 find usr/ -type f -exec sed -i -e 's|/usr/|././/|g' {} \; -exec echo -n "Patched /usr in " \; -exec echo {} \; >& patch1.log
 find usr/ -type f -exec sed -i -e "s|/${PREFIX}/|././/|g" {} \; -exec echo -n "Patched /${PREFIX} in " \; -exec echo {} \; >& patch2.log
+
+
+
+# Copy deskop file and application icon
+(mkdir -p usr/share/applications/ && cp /$PREFIX/share/applications/$LOWERAPP.desktop usr/share/applications) || exit 1
+(mkdir -p usr/share/icons && cp -r /$PREFIX/share/icons/hicolor usr/share/icons) || exit 1
+
+
+########################################################################
+# Copy desktop and icon file to AppDir for AppRun to pick them up
+########################################################################
+
+#get_apprun
+cp -a /sources/appimage/AppRun .
+get_desktop
+get_icon
+
+########################################################################
+# desktopintegration asks the user on first run to install a menu item
+########################################################################
+
+get_desktopintegration $LOWERAPP
+
 
 # The fonts configuration should not be patched, copy back original one
 if [ -e /$PREFIX/etc/fonts/fonts.conf ]; then
