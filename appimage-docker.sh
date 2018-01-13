@@ -72,7 +72,7 @@ mkdir -p /work/bak/lib && mv /usr/lib/x86_64-linux-gnu/libtiff*.* /work/bak/lib
 (cd /work && rm -rf vips-8* && wget https://github.com/jcupitt/libvips/releases/download/v8.5.9/vips-8.5.9.tar.gz && \
 tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 #(cd /work && cd vips-8.5.8 && \
-./configure --prefix="/$PREFIX" --without-python --enable-introspection=no && make -j install) || exit 1
+./configure --prefix="/$PREFIX" --without-python --enable-introspection=no --disable-gtk-doc && make -j install) || exit 1
 
 #rm -rf /sources/build/appimage
 (mkdir -p /sources/build/appimage && cd /sources/build/appimage && cmake -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
