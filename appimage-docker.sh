@@ -57,6 +57,13 @@ export CMAKE_PREFIX_PATH=/$PREFIX
 cp /temp-ld.so.conf /etc/ld.so.conf
 ldconfig
 
+
+cd /work
+rm -f get-pip.py
+wget https://bootstrap.pypa.io/get-pip.py
+python get-pip.py
+pip install six || exit 1
+
 #(sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get -y update && \
 (sudo apt-get -y update && sudo apt-get install -y libiptcdata0-dev wget curl fuse libfuse2 git)
 #sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5) || exit 1
