@@ -7,34 +7,6 @@
 
 PREFIX=zyx
 
-# Move blacklisted files to a special folder
-move_blacklisted()
-{
-  mkdir -p ./usr/lib-blacklisted
-  echo "APPIMAGEBASE: $APPIMAGEBASE"
-  ls $APPIMAGEBASE
-  #BLACKLISTED_FILES=$(wget -q https://github.com/probonopd/AppImages/raw/master/excludelist -O - | sed '/^\s*$/d' | sed '/^#.*$/d')
-  BLACKLISTED_FILES=$(cat "$APPIMAGEBASE/excludelist" | sed '/^\s*$/d' | sed '/^#.*$/d')
-  echo $BLACKLISTED_FILES
-  for FILE in $BLACKLISTED_FILES ; do
-    FOUND=$(find . -type f -name "${FILE}" 2>/dev/null)
-    if [ ! -z "$FOUND" ] ; then
-      echo "Removing blacklisted ${FOUND}"
-      rm -f "${FOUND}"
-      #mv "${FOUND}" ./usr/lib-blacklisted
-    fi
-  done
-}
-
-
-fix_pango()
-{
-    
-    version=$(pango-querymodules --version | tail -n 1 | tr -d " " | cut -d':' -f 2)
-    cat /$PREFIX/lib/pango/$version/modules.cache | sed "s|/$PREFIX/lib/pango/$version/modules/||g" > usr/lib/pango/$version/modules.cache
-}
-
-
 strip_binaries()
 {
   chmod u+w -R "$APPDIR"
@@ -53,9 +25,9 @@ export PKG_CONFIG_PATH=/$PREFIX/lib/pkgconfig:/work/inst/lib/pkgconfig:$PKG_CONF
 #export PKG_CONFIG_PATH=/work/inst/lib/pkgconfig:$PKG_CONFIG_PATH
 export CMAKE_PREFIX_PATH=/$PREFIX
 
-(echo "/$PREFIX/lib" && cat /etc/ld.so.conf) > /temp-ld.so.conf
-cp /temp-ld.so.conf /etc/ld.so.conf
-ldconfig
+#(echo "/$PREFIX/lib" && cat /etc/ld.so.conf) > /temp-ld.so.conf
+#cp /temp-ld.so.conf /etc/ld.so.conf
+#ldconfig
 
 
 cd /work
@@ -65,7 +37,7 @@ python get-pip.py
 pip install six || exit 1
 
 #(sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get -y update && \
-(sudo apt-get -y update && sudo apt-get install -y libiptcdata0-dev wget curl fuse libfuse2 git)
+#(sudo apt-get -y update && sudo apt-get install -y libiptcdata0-dev wget curl fuse libfuse2 git)
 #sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5) || exit 1
 
 #cd /work && wget https://cmake.org/files/v3.8/cmake-3.8.2.tar.gz && tar xzvf cmake-3.8.2.tar.gz && cd cmake-3.8.2 && ./bootstrap --prefix=/work/inst --parallel=2 && make -j 2 && make install
@@ -73,8 +45,8 @@ pip install six || exit 1
 
 (cd /work && rm -rf lensfun* && wget https://sourceforge.net/projects/lensfun/files/0.3.2/lensfun-0.3.2.tar.gz && tar xzvf lensfun-0.3.2.tar.gz && cd lensfun-0.3.2 && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" ../ && make -j 2 && make install) || exit 1
 
-mkdir -p /work/bak/include && mv /usr/include/x86_64-linux-gnu/tiff*.h /work/bak/include
-mkdir -p /work/bak/lib && mv /usr/lib/x86_64-linux-gnu/libtiff*.* /work/bak/lib
+#mkdir -p /work/bak/include && mv /usr/include/x86_64-linux-gnu/tiff*.h /work/bak/include
+#mkdir -p /work/bak/lib && mv /usr/lib/x86_64-linux-gnu/libtiff*.* /work/bak/lib
 
 (cd /work && rm -rf vips-8* && wget https://github.com/jcupitt/libvips/releases/download/v8.5.9/vips-8.5.9.tar.gz && \
 tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
@@ -84,7 +56,7 @@ tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 #rm -rf /sources/build/appimage
 (mkdir -p /sources/build/appimage && cd /sources/build/appimage && cmake -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
 
-#exit
+exit
 
 mkdir -p /sources/build/appimage
 cd /sources/build/appimage
