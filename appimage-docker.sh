@@ -36,7 +36,18 @@ wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 pip install six || exit 1
 
-(yum update -y && yum install -y pugixml-devel) || exit 1
+(yum update -y && yum install -y epel-release && yum update -y && yum install -y libtool-ltdl-devel autoconf automake libtools which json-c-devel json-glib-devel gtk-doc gperf libuuid-devel libcroco-devel intltool libpng-devel make \
+automake fftw-devel libjpeg-turbo-devel \
+libwebp-devel libxml2-devel swig ImageMagick-c++-devel \
+bc cfitsio-devel gsl-devel matio-devel \
+giflib-devel pugixml-devel wget curl git itstool \
+bison flex unzip dbus-devel libXtst-devel \
+mesa-libGL-devel mesa-libEGL-devel vala \
+libxslt-devel docbook-xsl libffi-devel \
+libvorbis-devel python-six curl \
+openssl-devel readline-devel expat-devel libtool \
+pixman-devel libffi-devel gtkmm24-devel gtkmm30-devel libcanberra-devel \
+lcms2-devel gtk-doc python-devel python-pip nano OpenEXR-devel) || exit 1
 
 #(sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get -y update && \
 #(sudo apt-get -y update && sudo apt-get install -y libiptcdata0-dev wget curl fuse libfuse2 git)
