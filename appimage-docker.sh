@@ -67,12 +67,12 @@ tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 ./configure --prefix="/$PREFIX" --without-python --enable-introspection=no --disable-gtk-doc && make -j install) || exit 1
 
 #rm -rf /sources/build/appimage
-(mkdir -p /sources/build/appimage && cd /sources/build/appimage && cmake -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
+(rm -rf /work/phf && mkdir -p /work/phf && cd /work/phf && cmake -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
 
-exit
+#exit
 
-mkdir -p /sources/build/appimage
-cd /sources/build/appimage
+mkdir -p /work/appimage
+cd /work/appimage
 cp /sources/appimage/excludelist .
 
 export ARCH=$(arch)
