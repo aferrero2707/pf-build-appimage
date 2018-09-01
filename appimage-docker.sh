@@ -19,7 +19,7 @@ strip_binaries()
 
 export PATH=/$PREFIX/bin:/work/inst/bin:$PATH
 export LD_LIBRARY_PATH=/$PREFIX/lib:/work/inst/lib:$LD_LIBRARY_PATH
-export PKG_CONFIG_PATH=/$PREFIX/lib/pkgconfig:/work/inst/lib/pkgconfig:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=/$PREFIX/lib/pkgconfig:/$PREFIX/lib64/pkgconfig:/$PREFIX/share/pkgconfig:/work/inst/lib/pkgconfig:$PKG_CONFIG_PATH
 #export PATH=/work/inst/bin:$PATH
 #export LD_LIBRARY_PATH=/work/inst/lib:$LD_LIBRARY_PATH
 #export PKG_CONFIG_PATH=/work/inst/lib/pkgconfig:$PKG_CONFIG_PATH
