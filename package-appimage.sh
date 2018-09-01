@@ -39,14 +39,14 @@ export APPDIR=$(pwd)/$APP.AppDir
 ########################################################################
 
 GLIBC_NEEDED=$(glibc_needed)
-VERSION=git-${TRAVIS_BRANCH}-gtk3-$(date +%Y%m%d)_$(date +%H%M)-${TRAVIS_COMMIT}.glibc${GLIBC_NEEDED}
+VERSION=git-${TRAVIS_BRANCH}-$(date +%Y%m%d)_$(date +%H%M)-${TRAVIS_COMMIT}.glibc${GLIBC_NEEDED}
 #VERSION=${RELEASE_VERSION}-glibc$GLIBC_NEEDED
 
 
 mkdir -p ../out/
 ARCH="x86_64"
-generate_appimage
-#generate_type2_appimage
+#generate_appimage
+generate_type2_appimage
 
 pwd
 ls ../out/*
