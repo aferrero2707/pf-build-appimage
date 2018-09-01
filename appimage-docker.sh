@@ -47,7 +47,7 @@ libxslt-devel docbook-xsl libffi-devel \
 libvorbis-devel python-six curl \
 openssl-devel readline-devel expat-devel libtool \
 pixman-devel libffi-devel gtkmm24-devel gtkmm30-devel libcanberra-devel \
-lcms2-devel gtk-doc python-devel python-pip nano OpenEXR-devel) || exit 1
+lcms2-devel gtk-doc python-devel python-pip nano OpenEXR-devel libexif-devel) || exit 1
 
 #(sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get -y update && \
 #(sudo apt-get -y update && sudo apt-get install -y libiptcdata0-dev wget curl fuse libfuse2 git)
