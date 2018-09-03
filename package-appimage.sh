@@ -45,6 +45,8 @@ VERSION=git-${TRAVIS_BRANCH}-$(date +%Y%m%d)_$(date +%H%M)-${TRAVIS_COMMIT}.glib
 
 mkdir -p ../out/
 ARCH="x86_64"
+export NO_GLIBC_VERSION=true
+export DOCKER_BUILD=true
 #generate_appimage
 generate_type2_appimage
 
