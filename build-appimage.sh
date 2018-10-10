@@ -43,7 +43,7 @@ lcms2-devel gtk-doc python-devel python-pip nano OpenEXR-devel libexif-devel) ||
 #mkdir -p /work/bak/include && mv /usr/include/x86_64-linux-gnu/tiff*.h /work/bak/include
 #mkdir -p /work/bak/lib && mv /usr/lib/x86_64-linux-gnu/libtiff*.* /work/bak/lib
 
-(cd /work && rm -rf vips-8* && wget https://github.com/jcupitt/libvips/releases/download/v8.5.9/vips-8.5.9.tar.gz && \
+(cd /work && rm -rf vips-8* && wget https://github.com/libvips/libvips/releases/download/v8.5.9/vips-8.5.9.tar.gz && \
 tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 #(cd /work && cd vips-8.5.8 && \
 ./configure --prefix="/$PREFIX" --without-python --enable-introspection=no --disable-gtk-doc && make -j install) || exit 1
