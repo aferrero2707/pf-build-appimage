@@ -49,7 +49,7 @@ tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 ./configure --prefix="/$PREFIX" --without-python --enable-introspection=no --disable-gtk-doc && make -j install) || exit 1
 
 (cd /work && rm -rf OpenColorIO && git clone https://github.com/imageworks/OpenColorIO.git && cd OpenColorIO && \
-mkdir -p build && cd build && cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" .. && make -j 3 install) || exit 1
+mkdir -p build && cd build && cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DOCIO_BUILD_APPS=OFF -DOCIO_BUILD_NUKE=OFF -DOCIO_BUILD_DOCS=OFF -DOCIO_BUILD_TESTS=OFF -DOCIO_BUILD_GPU_TESTS=OFF -DOCIO_BUILD_PYTHON=OFF -DOCIO_BUILD_JAVA=OFF .. && make -j 3 install) || exit 1
 
 #rm -rf /sources/build/appimage
 (rm -rf /work/phf && mkdir -p /work/phf && cd /work/phf && cmake3 -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
