@@ -19,7 +19,7 @@ python get-pip.py
 pip install six || exit 1
 
 (yum update -y && yum install -y epel-release && yum update -y && yum install -y libtool-ltdl-devel autoconf automake libtools which json-c-devel json-glib-devel gtk-doc gperf libuuid-devel libcroco-devel intltool libpng-devel make \
-automake fftw-devel libjpeg-turbo-devel \
+automake fftw-devel libjpeg-turbo-devel cmake3 \
 libwebp-devel libxml2-devel swig ImageMagick-c++-devel \
 bc cfitsio-devel gsl-devel matio-devel \
 giflib-devel pugixml-devel wget curl git itstool \
@@ -49,10 +49,10 @@ tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 ./configure --prefix="/$PREFIX" --without-python --enable-introspection=no --disable-gtk-doc && make -j install) || exit 1
 
 (cd /work && rm -rf OpenColorIO && git clone https://github.com/imageworks/OpenColorIO.git && cd OpenColorIO && \
-mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" .. && make -j 3 install) || exit 1
+mkdir -p build && cd build && cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" .. && make -j 3 install) || exit 1
 
 #rm -rf /sources/build/appimage
-(rm -rf /work/phf && mkdir -p /work/phf && cd /work/phf && cmake -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
+(rm -rf /work/phf && mkdir -p /work/phf && cd /work/phf && cmake3 -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
 
 #exit
 
