@@ -50,11 +50,8 @@ tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 
 (cd /work && rm -rf OpenColorIO-* && wget https://github.com/imageworks/OpenColorIO/archive/v1.1.0.tar.gz && \
 tar xzf v1.1.0.tar.gz && cd OpenColorIO-1.1.0 && mkdir -p build && cd build && \
-cmake -DCMAKE_INSTALL_PREFIX="/${PREFIX]" -DOCIO_BUILD_NUKE=OFF -DOCIO_BUILD_APPS=OFF -DOCIO_BUILD_PYTHON=OFF -DOCIO_BUILD_TESTS=OFF -DOCIO_BUILD_GPU_TESTS=OFF -DCMAKE_POLICY_DEFAULT_CMP0074=NEW .. && \
+cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DOCIO_BUILD_APPS=OFF -DOCIO_BUILD_NUKE=OFF -DOCIO_BUILD_DOCS=OFF -DOCIO_BUILD_TESTS=OFF -DOCIO_BUILD_GPU_TESTS=OFF -DOCIO_BUILD_PYTHON=OFF -DOCIO_BUILD_JAVA=OFF .. && \
 make -j 3 install) || exit 1
-
-(cd /work && rm -rf OpenColorIO && git clone https://github.com/imageworks/OpenColorIO.git && cd OpenColorIO && \
-mkdir -p build && cd build && cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DOCIO_BUILD_APPS=OFF -DOCIO_BUILD_NUKE=OFF -DOCIO_BUILD_DOCS=OFF -DOCIO_BUILD_TESTS=OFF -DOCIO_BUILD_GPU_TESTS=OFF -DOCIO_BUILD_PYTHON=OFF -DOCIO_BUILD_JAVA=OFF .. && make -j 3 install) || exit 1
 
 #rm -rf /sources/build/appimage
 (rm -rf /work/phf && mkdir -p /work/phf && cd /work/phf && cmake3 -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
