@@ -19,7 +19,7 @@ python get-pip.py
 pip install six || exit 1
 
 (yum update -y && yum install -y epel-release && yum update -y && yum install -y libtool-ltdl-devel autoconf automake libtools which json-c-devel json-glib-devel gtk-doc gperf libuuid-devel libcroco-devel intltool libpng-devel make \
-automake fftw-devel libjpeg-turbo-devel \
+automake fftw-devel libjpeg-turbo-devel cmake3 \
 libwebp-devel libxml2-devel swig ImageMagick-c++-devel \
 bc cfitsio-devel gsl-devel matio-devel \
 giflib-devel pugixml-devel wget curl git itstool \
@@ -43,7 +43,7 @@ lcms2-devel gtk-doc python-devel python-pip nano OpenEXR-devel libexif-devel) ||
 #mkdir -p /work/bak/include && mv /usr/include/x86_64-linux-gnu/tiff*.h /work/bak/include
 #mkdir -p /work/bak/lib && mv /usr/lib/x86_64-linux-gnu/libtiff*.* /work/bak/lib
 
-(cd /work && rm -rf vips-8* && wget https://github.com/jcupitt/libvips/releases/download/v8.5.9/vips-8.5.9.tar.gz && \
+(cd /work && rm -rf vips-8* && wget https://github.com/libvips/libvips/releases/download/v8.5.9/vips-8.5.9.tar.gz && \
 tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 #(cd /work && cd vips-8.5.8 && \
 ./configure --prefix="/$PREFIX" --without-python --enable-introspection=no --disable-gtk-doc && make -j 3 install) || exit 1
@@ -53,8 +53,11 @@ tar xzf v1.1.0.tar.gz && cd OpenColorIO-1.1.0 && mkdir -p build && cd build && \
 cmake -DCMAKE_INSTALL_PREFIX="/${PREFIX]" -DOCIO_BUILD_NUKE=OFF -DOCIO_BUILD_APPS=OFF -DOCIO_BUILD_PYTHON=OFF -DOCIO_BUILD_TESTS=OFF -DOCIO_BUILD_GPU_TESTS=OFF -DCMAKE_POLICY_DEFAULT_CMP0074=NEW .. && \
 make -j 3 install) || exit 1
 
+(cd /work && rm -rf OpenColorIO && git clone https://github.com/imageworks/OpenColorIO.git && cd OpenColorIO && \
+mkdir -p build && cd build && cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DOCIO_BUILD_APPS=OFF -DOCIO_BUILD_NUKE=OFF -DOCIO_BUILD_DOCS=OFF -DOCIO_BUILD_TESTS=OFF -DOCIO_BUILD_GPU_TESTS=OFF -DOCIO_BUILD_PYTHON=OFF -DOCIO_BUILD_JAVA=OFF .. && make -j 3 install) || exit 1
+
 #rm -rf /sources/build/appimage
-(rm -rf /work/phf && mkdir -p /work/phf && cd /work/phf && cmake -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
+(rm -rf /work/phf && mkdir -p /work/phf && cd /work/phf && cmake3 -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
 
 #exit
 
