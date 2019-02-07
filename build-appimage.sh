@@ -50,7 +50,7 @@ tar xzf vips-8.5.9.tar.gz && cd vips-8.5.9 && \
 
 (cd /work && rm -rf OpenColorIO-* && wget https://github.com/imageworks/OpenColorIO/archive/v1.1.0.tar.gz && \
 tar xzf v1.1.0.tar.gz && cd OpenColorIO-1.1.0 && mkdir -p build && cd build && \
-CXXFLAGS="-Wno-unused-function" cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DOCIO_BUILD_APPS=OFF -DOCIO_BUILD_NUKE=OFF -DOCIO_BUILD_DOCS=OFF -DOCIO_BUILD_TESTS=OFF -DOCIO_BUILD_GPU_TESTS=OFF -DOCIO_BUILD_PYTHON=OFF -DOCIO_BUILD_JAVA=OFF .. && \
+CXXFLAGS="-Wno-unused-function -Wno-deprecated-declarations" cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DOCIO_BUILD_APPS=OFF -DOCIO_BUILD_NUKE=OFF -DOCIO_BUILD_DOCS=OFF -DOCIO_BUILD_TESTS=OFF -DOCIO_BUILD_GPU_TESTS=OFF -DOCIO_BUILD_PYTHON=OFF -DOCIO_BUILD_JAVA=OFF .. && \
 make -j 3 install) || exit 1
 
 #rm -rf /sources/build/appimage
