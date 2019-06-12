@@ -36,9 +36,9 @@ export APPIMAGE_OWD=$(pwd)
 #echo "$@"
 #cd $HERE
 #cd ..
-ldd "$APPDIR/usr/bin/photoflow.real"
+ldd "$APPDIR/usr/bin/photoflow.bin"
 echo "OWD: $OWD"
 #cd $OWD
 #cd "$HERE/.."
-"$APPDIR/usr/bin/photoflow.real" "$@"
+"$APPDIR/usr/bin/photoflow.wrapper" "$@"
 #gdb -ex "run" $HERE/photoflow.real

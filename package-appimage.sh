@@ -29,7 +29,7 @@ cp /work/appimage-helper-scripts/excludelist "${APPIMAGEBASE}"
 ########################################################################
 # Copy executable and config files
 ########################################################################
-(mkdir -p "$APPDIR/usr/bin" && cp -a /${PREFIX}/bin/$LOWERAPP "$APPDIR/usr/bin/$LOWERAPP.real") || exit 1
+(mkdir -p "$APPDIR/usr/bin" && cp -a /${PREFIX}/bin/$LOWERAPP "$APPDIR/usr/bin/$LOWERAPP.bin") || exit 1
 (mkdir -p "$APPDIR/usr/share" && cp -a /${PREFIX}/share/$LOWERAPP "$APPDIR/usr/share") || exit 1
 (mkdir -p "$APPDIR/usr/share/applications" && cp /$PREFIX/share/applications/$LOWERAPP.desktop "$APPDIR/usr/share/applications") || exit 1
 (mkdir -p "$APPDIR/usr/share/metainfo" && cp /$PREFIX/share/metainfo/$LOWERAPP.appdata.xml "$APPDIR/usr/share/metainfo") || exit 1
@@ -112,6 +112,7 @@ get_icon
 ########################################################################
 
 get_desktopintegration $LOWERAPP
+cp -a "/work/appimage-helper-scripts/app.wrapper" "$APPDIR/usr/bin/$LOWERAPP.wrapper"
 
 
 # Workaround for:
