@@ -27,7 +27,7 @@ bison flex unzip dbus-devel libXtst-devel \
 mesa-libGL-devel mesa-libEGL-devel vala \
 libxslt-devel docbook-xsl libffi-devel \
 libvorbis-devel python-six curl \
-openssl-devel readline-devel expat-devel libtool \
+openssl-devel readline-devel expat-devel libtool exiv2-devel \
 pixman-devel libffi-devel gtkmm24-devel gtkmm30-devel libcanberra-devel \
 lcms2-devel gtk-doc python-devel python-pip nano OpenEXR-devel libexif-devel) || exit 1
 
@@ -61,7 +61,7 @@ CXXFLAGS="-Wno-unused-function -Wno-deprecated-declarations" cmake3 -DCMAKE_BUIL
 make -j 3 install) || exit 1
 fi
 
-(mkdir -p /work/phf && cd /work/phf && cmake3 -DOCIO_ENABLED=ON -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
+(mkdir -p /work/phf && cd /work/phf && rm -f CMakeCache.txt && cmake3 -DOCIO_ENABLED=ON -DCMAKE_BUILD_TYPE=Release -DBUNDLED_LENSFUN=OFF  -DCMAKE_INSTALL_PREFIX="/$PREFIX" -DUSE_GTKMM3=${USE_GTKMM3} /sources && make -j 2 install) || exit 1
 
 #exit
 
