@@ -5,7 +5,7 @@
 ########################################################################
 
 
-APP=photoflow
+APP=PhotoFlow
 LOWERAPP=${APP,,}
 
 
@@ -32,6 +32,7 @@ cp /work/appimage-helper-scripts/excludelist "${APPIMAGEBASE}"
 (mkdir -p "$APPDIR/usr/bin" && cp -a /${PREFIX}/bin/$LOWERAPP "$APPDIR/usr/bin/$LOWERAPP.real") || exit 1
 (mkdir -p "$APPDIR/usr/share" && cp -a /${PREFIX}/share/$LOWERAPP "$APPDIR/usr/share") || exit 1
 (mkdir -p "$APPDIR/usr/share/applications" && cp /$PREFIX/share/applications/$LOWERAPP.desktop "$APPDIR/usr/share/applications") || exit 1
+(mkdir -p "$APPDIR/usr/share/metainfo" && cp /$PREFIX/share/metainfo/$LOWERAPP.appdata.xml "$APPDIR/usr/share/metainfo") || exit 1
 cd /$PREFIX/share/icons/hicolor
 for f in *; do
   ls $f/apps/$LOWERAPP.png
@@ -141,9 +142,14 @@ VERSION=git-${TRAVIS_BRANCH}-$(date +%Y%m%d)_$(date +%H%M)-${TRAVIS_COMMIT}
 
 
 mkdir -p ../out/
+rm -f ../out/*
 ARCH="x86_64"
 export NO_GLIBC_VERSION=true
 export DOCKER_BUILD=true
+export GEN_UPDATE_ZSYNC_GITHUB=1
+export GITHUB_USER=aferrero2707
+export GITHUB_REPO=PhotoFlow
+export GEN_UPDATE_VERSION="git-${TRAVIS_BRANCH}"
 generate_type2_appimage
 
 pwd
