@@ -43,5 +43,8 @@ ldd "$APPDIR/usr/bin/photoflow.bin"
 echo "OWD: $OWD"
 #cd $OWD
 #cd "$HERE/.."
-"$APPDIR/usr/bin/photoflow.wrapper" "$@"
-#gdb -ex "run" $HERE/photoflow.real
+if [ x"$PHFDEBUG" = "x1" ]; then
+	gdb -ex "run" "$APPDIR/usr/bin/photoflow.bin"
+else
+	"$APPDIR/usr/bin/photoflow.wrapper" "$@"
+fi
