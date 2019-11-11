@@ -138,7 +138,9 @@ cd .. # Go out of AppImage
 # Determine the version of the app; also include needed glibc version
 ########################################################################
 
-VERSION=git-${TRAVIS_BRANCH}-$(date +%Y%m%d)_$(date +%H%M)-${TRAVIS_COMMIT}
+TRAVIS_COMMIT_SHORT=$(echo "${TRAVIS_COMMIT}" | head -c 5)
+VERSION="git_${TRAVIS_BRANCH}_linux_$(date +%Y%m%d)_$(date +%H%M)_${TRAVIS_COMMIT_SHORT}"
+#VERSION=git-${TRAVIS_BRANCH}-$(date +%Y%m%d)_$(date +%H%M)-${TRAVIS_COMMIT}
 #VERSION=${RELEASE_VERSION}-glibc$GLIBC_NEEDED
 
 
@@ -155,6 +157,9 @@ generate_type2_appimage
 
 pwd
 ls ../out/*
+rm -f ../out/__temp__.AppImage
+mv ../out/*${VERSION}*.AppImage ../out/__temp__.AppImage
+mv ../out/__temp__.AppImage ../out/${APP}_${VERSION}.AppImage
 
 ########################################################################
 # Upload the AppDir
