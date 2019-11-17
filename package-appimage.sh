@@ -163,7 +163,7 @@ mv ../out/__temp__.AppImage ../out/${APP}_${VERSION}.AppImage
 
 rm -f ../out/__temp__.zsync
 mv ../out/*${VERSION}*.AppImage.zsync ../out/__temp__.zsync
-mv ../out/__temp__.AppImage.zsync ../out/${APP}_${VERSION}.zsync
+mv ../out/__temp__.zsync ../out/${APP}_${VERSION}.zsync
 
 ########################################################################
 # Upload the AppDir
