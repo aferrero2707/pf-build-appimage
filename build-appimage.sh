@@ -21,7 +21,7 @@ pip install six || exit 1
 (yum update -y && yum install -y epel-release && yum update -y && yum install -y libtool-ltdl-devel autoconf automake libtools which json-c-devel json-glib-devel gtk-doc gperf libuuid-devel libcroco-devel intltool libpng-devel make \
 automake fftw-devel libjpeg-turbo-devel cmake3 \
 libwebp-devel libxml2-devel swig ImageMagick-c++-devel \
-bc cfitsio-devel gsl-devel matio-devel ibiptcdata-devel\
+bc cfitsio-devel gsl-devel matio-devel libiptcdata-devel\
 giflib-devel pugixml-devel wget curl git itstool \
 bison flex unzip dbus-devel libXtst-devel \
 mesa-libGL-devel mesa-libEGL-devel vala \
